@@ -9,6 +9,9 @@ public class Main {
         Sorter sorter = new Sorter();
         Writing writer = new Writing();
 
+        // Clearing file
+        writer.clearFile();
+
         // All operations
         writer.write(pa.parse(sorter.sort(rd.read(rd.howMany()))));
 
