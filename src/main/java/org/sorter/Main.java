@@ -39,6 +39,8 @@ public class Main {
             }catch(IOException e){
                 e.printStackTrace();
             }
+            Writing writer = new Writing();
+            writer.write(sorted);
         }
     }
 }
