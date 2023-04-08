@@ -5,7 +5,10 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Reading {
-    String FileName = "src/main/resources/numbers.txt";
+    String FileName;
+    Reading(String path){
+        FileName = path;
+    }
     protected int howMany(){
 
         // Reading how many records file have

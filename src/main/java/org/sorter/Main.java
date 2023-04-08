@@ -6,10 +6,10 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         // Objects
-        Reading rd = new Reading();
+        Writing writer = new Writing("src/main/resources/numbers.txt");
+        Reading rd = new Reading("src/main/resources/numbers.txt");
         Parsing pa = new Parsing();
         Sorter sorter = new Sorter();
-        Writing writer = new Writing();
         Scanner sc = new Scanner(System.in);
 
         // Variables
