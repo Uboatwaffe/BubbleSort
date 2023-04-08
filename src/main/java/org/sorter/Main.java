@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        //----!!!THIS IS FINAL VERSION!!!----\\
+        //-----!!!THIS IS FINAL VERSION!!!-----\\
 
         // Objects
         Writing writer = new Writing("src/main/resources/numbers.txt");
