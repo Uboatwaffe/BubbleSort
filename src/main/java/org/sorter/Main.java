@@ -27,6 +27,9 @@ public class Main {
             } catch (FileNotFoundException e) {
                 System.out.println("File not found");
             }
+            Sorter sorter = new Sorter();
+            db = sorter.sort(db);
+
         }
     }
 }
