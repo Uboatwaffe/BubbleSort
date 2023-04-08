@@ -29,6 +29,10 @@ public class Main {
             }
             Sorter sorter = new Sorter();
             db = sorter.sort(db);
+            String[] sorted = new String[db.length];
+            for (int i = 0; i < db.length; i++) {
+                sorted[i] = Integer.toString(db[i]);
+            }
 
         }
     }
