@@ -23,7 +23,6 @@ public class Main {
             try (Scanner sc = new Scanner(new File("src/main/resources/numbers.txt"))) {
                 for (int i = 0; i < counter; i++) {
                     db[i] = sc.nextInt();
-                    System.out.println(db[i]);
                 }
             } catch (FileNotFoundException e) {
                 System.out.println("File not found");
