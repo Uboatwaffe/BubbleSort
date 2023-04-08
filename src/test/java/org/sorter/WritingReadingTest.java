@@ -9,7 +9,7 @@ class WritingReadingTest {
     Reading reading = new Reading("src/test/resources/test.txt");
 
     @Test
-    void test1() {
+    void test() {
 
     // Arrays
     // Set 1
