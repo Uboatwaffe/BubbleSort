@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        //----!!!THIS IS FINAL VERSION!!!----\\
+
         // Objects
         Writing writer = new Writing("src/main/resources/numbers.txt");
         Reading rd = new Reading("src/main/resources/numbers.txt");
