@@ -1,7 +1,6 @@
 package org.sorter;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
 
 
@@ -33,7 +32,13 @@ public class Main {
             for (int i = 0; i < db.length; i++) {
                 sorted[i] = Integer.toString(db[i]);
             }
-
+            try {
+                PrintWriter writer = new PrintWriter("src/main/resources/numbers.txt");
+                writer.print("");
+                writer.close();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
         }
     }
 }
