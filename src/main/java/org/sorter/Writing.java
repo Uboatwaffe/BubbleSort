@@ -19,12 +19,4 @@ public class Writing{
             e.printStackTrace();
         }
     }
-    protected void clearFile(){
-        try (FileWriter fw = new FileWriter(fileName)) {
-            fw.write("");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
