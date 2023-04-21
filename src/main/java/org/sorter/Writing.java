@@ -4,11 +4,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Writing{
-    String FileName;
+    private String FileName;
     Writing(String path){
         FileName = path;
     }
-    int j;
+    private int j;
     protected void write(String[] a) {
 
         // Writing String[] in file

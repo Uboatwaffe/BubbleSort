@@ -8,15 +8,16 @@ public class Main {
         //-----!!!THIS IS FINAL VERSION!!!-----\\
 
         // Variables
+        String filename = file.getFileName();
         String container;
         String ignore;
-        String filename = "numbers.txt";
+        boolean set = false;
         int choice;
         int checker;
 
         // Objects
-        Writing writer = new Writing("src/main/resources/" + filename);
-        Reading rd = new Reading("src/main/resources/" + filename);
+        Writing writer = null;
+        Reading rd = null;
         Parsing pa = new Parsing();
         Sorter sorter = new Sorter();
         Scanner sc = new Scanner(System.in);
@@ -26,13 +27,26 @@ public class Main {
         System.out.print("Do you want to insert numbers from file (1) or via terminal (2) ? ");
         choice = sc.nextInt();
 
+        // If user chose file asks which file
         if (choice == 1) {
-            System.out.print("Do you want to use file: " + filename + " ? ([1] yes; [2] no)");
+
+            // Asks user does he want to use preset file
+            System.out.print("Do you want to use file: " + filename + " ? ([1] yes; [2] no) ");
             choice = sc.nextInt();
-            if (choice == 1){
+
+            // Clearing
+            sc.nextLine();
+
+            // If so asks the user about the name of that file
+            if (choice == 2){
                 System.out.print("What new file name is? ");
-                filename = sc.nextLine();
+                file.setFileName(sc.nextLine());
             }
+
+            // Sets writer and reader
+            writer = new Writing("src/main/resources/"+file.getFileName());
+            rd = new Reading("src/main/resources/"+file.getFileName());
+            set = true;
         }else {
 
             // Taking information about how many numbers will be inserted
@@ -59,14 +73,27 @@ public class Main {
             }
 
             // Inserting numbers into file
+            if (!set){
+
+                // Sets writer and reader
+                writer = new Writing("src/main/resources/"+file.getFileName());
+                rd = new Reading("src/main/resources/"+file.getFileName());
+            }
             writer.write(db);
+        }
+
+        if (!set){
+
+            // Sets writer and reader
+            writer = new Writing("src/main/resources/"+file.getFileName());
+            rd = new Reading("src/main/resources/"+file.getFileName());
         }
 
         // All operations
         writer.write(pa.parse(sorter.sort(rd.read(rd.howMany()))));
 
         // Tells user everything went fine
-        System.out.println("All numbers sorted\nYou can see them in file numbers.txt or see them now by clicking 1:");
+        System.out.println("All numbers sorted\nYou can see them in file " + file.getFileName() + " or see them now by clicking 1:");
         choice = sc.nextInt();
 
         // Optionally shows numbers

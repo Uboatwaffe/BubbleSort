@@ -2,10 +2,12 @@ package org.sorter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Reading {
-    String FileName;
+    private String FileName;
+    private boolean created = false;
     Reading(String path){
         FileName = path;
     }
@@ -21,6 +23,12 @@ public class Reading {
             }
         }catch(FileNotFoundException e) {
             System.out.println("File not found");
+            try{
+                File f = new File("src/main/resources/"+FileName);
+                f.createNewFile();
+            }catch(IOException er){
+                System.out.println("Something went wrong, please inform the developer!");
+            }
         }
         return counter;
     }
