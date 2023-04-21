@@ -7,24 +7,33 @@ public class Main {
     public static void main(String[] args) {
         //-----!!!THIS IS FINAL VERSION!!!-----\\
 
+        // Variables
+        String container;
+        String ignore;
+        String filename = "numbers.txt";
+        int choice;
+        int checker;
+
         // Objects
-        Writing writer = new Writing("src/main/resources/numbers.txt");
-        Reading rd = new Reading("src/main/resources/numbers.txt");
+        Writing writer = new Writing("src/main/resources/" + filename);
+        Reading rd = new Reading("src/main/resources/" + filename);
         Parsing pa = new Parsing();
         Sorter sorter = new Sorter();
         Scanner sc = new Scanner(System.in);
 
-        // Variables
-        String container;
-        String ignore;
-        int choice;
-        int checker;
 
         // File or manually
         System.out.print("Do you want to insert numbers from file (1) or via terminal (2) ? ");
         choice = sc.nextInt();
 
-        if (choice == 2) {
+        if (choice == 1) {
+            System.out.print("Do you want to use file: " + filename + " ? ([1] yes; [2] no)");
+            choice = sc.nextInt();
+            if (choice == 1){
+                System.out.print("What new file name is? ");
+                filename = sc.nextLine();
+            }
+        }else {
 
             // Taking information about how many numbers will be inserted
             System.out.println("How many numbers you want to insert?");
