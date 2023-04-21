@@ -5,7 +5,11 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        //-----!!!THIS IS FINAL VERSION!!!-----\\
+        //TODO make loop
+        //TODO make interface
+        //TODO when creating file make user inserting numbers
+        //TODO be able to see all files
+        //TODO be able to delete files
 
         // Variables
         String filename = file.getFileName();
@@ -22,32 +26,30 @@ public class Main {
         Sorter sorter = new Sorter();
         Scanner sc = new Scanner(System.in);
 
+        // Asks user does he want to use preset file
+        System.out.print("Do you want to use file: " + filename + " ? ([1] yes; [2] no) ");
+        choice = sc.nextInt();
+
+        // Clearing
+        sc.nextLine();
+
+        // If so asks the user about the name of that file
+        if (choice == 2){
+            System.out.print("What new file name is? ");
+            file.setFileName(sc.nextLine());
+        }
+
+        // Sets writer and reader
+        writer = new Writing(file.getFileName());
+        rd = new Reading(file.getFileName());
+        set = true;
+
 
         // File or manually
         System.out.print("Do you want to insert numbers from file (1) or via terminal (2) ? ");
         choice = sc.nextInt();
 
-        // If user chose file asks which file
-        if (choice == 1) {
-
-            // Asks user does he want to use preset file
-            System.out.print("Do you want to use file: " + filename + " ? ([1] yes; [2] no) ");
-            choice = sc.nextInt();
-
-            // Clearing
-            sc.nextLine();
-
-            // If so asks the user about the name of that file
-            if (choice == 2){
-                System.out.print("What new file name is? ");
-                file.setFileName(sc.nextLine());
-            }
-
-            // Sets writer and reader
-            writer = new Writing("src/main/resources/"+file.getFileName());
-            rd = new Reading("src/main/resources/"+file.getFileName());
-            set = true;
-        }else {
+        if (choice == 2) {
 
             // Taking information about how many numbers will be inserted
             System.out.println("How many numbers you want to insert?");
@@ -73,42 +75,55 @@ public class Main {
             }
 
             // Inserting numbers into file
-            if (!set){
+            if (!set) {
 
                 // Sets writer and reader
-                writer = new Writing("src/main/resources/"+file.getFileName());
-                rd = new Reading("src/main/resources/"+file.getFileName());
+                writer = new Writing(file.getFileName());
+                rd = new Reading(file.getFileName());
             }
             writer.write(db);
         }
 
+
         if (!set){
 
             // Sets writer and reader
-            writer = new Writing("src/main/resources/"+file.getFileName());
-            rd = new Reading("src/main/resources/"+file.getFileName());
+            writer = new Writing(file.getFileName());
+            rd = new Reading(file.getFileName());
         }
 
         // All operations
-        writer.write(pa.parse(sorter.sort(rd.read(rd.howMany()))));
+        checker = rd.howMany();
+        if (checker < 0) {
+            writer.write(
+                    pa.parse(
+                            sorter.sort(
+                                    rd.read(
+                                            checker
+                                    )
+                            )
+                    )
+            );
 
-        // Tells user everything went fine
-        System.out.println("All numbers sorted\nYou can see them in file " + file.getFileName() + " or see them now by clicking 1:");
-        choice = sc.nextInt();
 
-        // Optionally shows numbers
-        if (choice == 1) {
+            // Tells user everything went fine
+            System.out.println("All numbers sorted\nYou can see them in file " + file.getFileName() + " or see them now by clicking 1:");
+            choice = sc.nextInt();
 
-            // Creates array
-            int[] db;
+            // Optionally shows numbers
+            if (choice == 1) {
 
-            // Assigns array
-            db = rd.read(rd.howMany());
+                // Creates array
+                int[] db2;
 
-            // Prints out array
-            for (int x :
-                    db) {
-                System.out.println(x);
+                // Assigns array
+                db2 = rd.read(rd.howMany());
+
+                // Prints out array
+                for (int x :
+                        db2) {
+                    System.out.println(x);
+                }
             }
         }
 

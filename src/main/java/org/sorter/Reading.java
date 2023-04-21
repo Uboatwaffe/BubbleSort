@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Reading {
     private String FileName;
     private boolean created = false;
+    private int choice;
     Reading(String path){
         FileName = path;
     }
@@ -22,12 +23,11 @@ public class Reading {
                 counter++;
             }
         }catch(FileNotFoundException e) {
-            System.out.println("File not found");
-            try{
-                File f = new File("src/main/resources/"+FileName);
-                f.createNewFile();
-            }catch(IOException er){
-                System.out.println("Something went wrong, please inform the developer!");
+            System.out.println("File not found\nDo you want to create one? ([1] yes; [2] no)");
+            Scanner sc = new Scanner(System.in);
+            choice = sc.nextInt();
+            if (choice == 1) {
+                  file.createFile(FileName);
             }
         }
         return counter;
