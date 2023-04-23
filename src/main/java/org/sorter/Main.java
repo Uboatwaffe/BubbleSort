@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         //TODO make interface
-        //TODO when creating file make user inserting numbers
+        //TODO do something when file not created
         //TODO be able to see all files
         //TODO be able to delete files
 
@@ -45,9 +45,10 @@ public class Main {
         rd = new Reading(file.getFileName());
         // Checks if file exists
         checker = rd.howMany();
-        if (checker < 0)
+        if (checker == 0) {
             set = true;
-
+            choice = 2;
+        }
         do {
             try {
 
@@ -60,7 +61,7 @@ public class Main {
                 if (choice == 4) {
                     exit = true;
                     continue;
-                } else if (choice == 3 && !set) {
+                } else if (choice == 3) {
                     // Clears
                     sc.nextLine();
 
@@ -71,6 +72,8 @@ public class Main {
                     // Sets writer and reader
                     writer = new Writing(file.getFileName());
                     rd = new Reading(file.getFileName());
+                    continue;
+
                 } else if (choice == 2) {
 
                     // Taking information about how many numbers will be inserted
@@ -97,6 +100,7 @@ public class Main {
                     }
 
                     writer.write(db);
+                    set = false;
                 }
 
                 // All operations

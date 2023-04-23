@@ -23,12 +23,13 @@ public class Reading {
                 counter++;
             }
         }catch(FileNotFoundException e) {
-            System.out.println("File not found\nDo you want to create one? ([1] yes; [2] no)");
+            System.out.println("File not found\nDo you want to create one? ([1] yes; [2] no) ");
             Scanner sc = new Scanner(System.in);
             choice = sc.nextInt();
             if (choice == 1) {
                   file.createFile(FileName);
-            }
+            }else
+                counter--;
         }
         return counter;
     }
