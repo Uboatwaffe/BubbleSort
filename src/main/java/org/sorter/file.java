@@ -1,6 +1,7 @@
 package org.sorter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class file {
@@ -26,5 +27,13 @@ public class file {
             System.out.println(err.getMessage());
 
         } catch (CreatingFile error){}
+    }
+    protected static void deleteFile(String fileName){
+        try {
+            File file = new File("src/main/resources/" + fileName);
+            file.delete();
+        }catch(SecurityException e){
+            System.out.println("File couldn't be deleted");
+        }
     }
 }

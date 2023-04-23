@@ -2,6 +2,7 @@ package org.sorter;
 
 
 import java.util.InputMismatchException;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -13,16 +14,24 @@ public class Main {
         // Variables
         String filename = file.getFileName();
         String defaultPath = "src/main/resources/numbers.txt";
-        String container;
+        String container = "";
         String ignore;
         boolean exit = false;
         boolean set = false;
         boolean notCreated = true;
         int choice;
         int checker;
+        int k = 1;
+
+        // Arrays
+        String[] files = new String[999];
+        files[0] = "numbers.txt";
+        files[1] = "a.txt";
 
         // Objects
         Writing writer = null;
+        Writing fileWriter = new Writing("src/main/resources/files.txt");
+        Reading fileReader = new Reading("src/main/resources/files.txt");
         Reading rd = null;
         Parsing pa = new Parsing();
         Sorter sorter = new Sorter();
@@ -38,7 +47,8 @@ public class Main {
         // If so asks the user about the name of that file
         if (choice == 2){
             System.out.print("What new file name is? ");
-            file.setFileName(sc.nextLine());
+            container = sc.nextLine();
+            file.setFileName(container);
         }
 
         // Sets writer and reader
@@ -54,6 +64,8 @@ public class Main {
             rd = new Reading(defaultPath);
             System.out.println("Returned to default path: " + defaultPath);
             file.setFileName(defaultPath);
+        } else if (checker == -2) {
+            files[++k] = container;
         }
         do {
             try {
@@ -61,7 +73,16 @@ public class Main {
                 if (!set) {
 
                     // File or manually
-                    System.out.print("Do you want to insert numbers from file (1), via terminal (2), change file (3) or close program (4)? ");
+                    System.out.print("""
+                            
+                            Do you want to insert numbers from file (1),
+                            via terminal (2),
+                            change file (3),
+                            show all files (4),
+                            delete file (5),
+                            or close program (6)?
+                            
+                            """);
                     choice = sc.nextInt();
 
                     // Types out "-" for clarity
@@ -107,7 +128,8 @@ public class Main {
                     sc.nextLine();
 
                     System.out.print("What new file name is? ");
-                    file.setFileName(sc.nextLine());
+                    container = sc.nextLine();
+                    file.setFileName(container);
 
                     // Sets writer and reader
                     writer = new Writing(file.getFileName());
@@ -115,15 +137,16 @@ public class Main {
 
                     checker = rd.howMany();
 
-                    if (checker == -1){
+                    if (checker == -1) {
                         writer = new Writing(defaultPath);
                         rd = new Reading(defaultPath);
                         System.out.println("Returned to default path: " + defaultPath);
                         notCreated = false;
-                    }else if (checker == -2){
+                    } else if (checker == -2) {
                         System.out.println("Current path: " + file.getFileName());
                         set = true;
                         choice = 2;
+                        files[++k] = container;
                         continue;
                     } else if (checker > 0) {
                         System.out.println("Current path: " + file.getFileName());
@@ -132,10 +155,35 @@ public class Main {
                         set = true;
                         choice = 2;
                     }
-
-
-
                 } else if (choice == 4) {
+                    for (String x:
+                         files) {
+                        if (x != null)
+                            System.out.println(x);
+                    }
+                    // Types out "-" for clarity
+                    System.out.println("----------------");
+                    continue;
+                } else if (choice == 5) {
+                    sc.nextLine();
+                    System.out.print("Insert file name to be deleted: ");
+                    container = sc.nextLine();
+                    if (container.equals("") || container.equals("numbers.txt")) {
+                        System.out.println("You cannot delete that file!");
+                        continue;
+                    }
+                    for (int i = 0; i < files.length; i++) {
+                        if (Objects.equals(files[i], container)) {
+                            files[i] = null;
+                            file.deleteFile(container);
+                            System.out.println("File " + container + " deleted");
+                            break;
+                        }
+                    }
+                    // Types out "-" for clarity
+                    System.out.println("----------------");
+                    continue;
+                } else if (choice == 6) {
                     exit = true;
                     continue;
                 }
