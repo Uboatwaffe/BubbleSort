@@ -9,7 +9,6 @@ public class Main {
         //TODO make interface
         //TODO be able to see all files
         //TODO be able to delete files
-        //TODO when inserting 1 in "how many numbers" exception occurs
 
         // Variables
         String filename = file.getFileName();
@@ -60,15 +59,50 @@ public class Main {
             try {
 
                 if (!set) {
+
                     // File or manually
                     System.out.print("Do you want to insert numbers from file (1), via terminal (2), change file (3) or close program (4)? ");
                     choice = sc.nextInt();
+
+                    // Types out "-" for clarity
+                    System.out.println("----------------");
                 }
 
-                if (choice == 4) {
-                    exit = true;
-                    continue;
-                } else if (choice == 3) {
+                if (choice == 2) {
+
+                    // Taking information about how many numbers will be inserted
+                    System.out.println("How many numbers you want to insert?");
+                    choice = sc.nextInt();
+
+                    if (choice >= 2) {
+
+                        // Clearing
+                        sc.nextLine();
+
+                        // Creating array for all numbers
+                        String[] db = new String[choice];
+
+                        // Inserting numbers
+                        for (int i = 0; i < choice; i++) {
+                            System.out.print("Insert number no. " + (i + 1) + ": ");
+                            container = sc.nextLine();
+                            try {
+                                checker = Integer.parseInt(container);
+                                db[i] = container;
+                            } catch (NumberFormatException e) {
+                                System.out.println("You cannot insert word!");
+                                i--;
+                            }
+                        }
+
+                        writer.write(db);
+                    }else{
+                        System.out.println("You need at least 2 numbers to be able to sort them");
+                    }
+                    set = false;
+                    notCreated = true;
+
+                }else if (choice == 3) {
                     // Clears
                     sc.nextLine();
 
@@ -94,40 +128,16 @@ public class Main {
                     } else if (checker > 0) {
                         System.out.println("Current path: " + file.getFileName());
                         continue;
+                    } else if (checker == 0) {
+                        set = true;
+                        choice = 2;
                     }
 
 
-                } else if (choice == 2) {
 
-                    // Taking information about how many numbers will be inserted
-                    System.out.println("How many numbers you want to insert?");
-                    choice = sc.nextInt();
-
-                    if (choice > 0) {
-
-                        // Clearing
-                        sc.nextLine();
-
-                        // Creating array for all numbers
-                        String[] db = new String[choice];
-
-                        // Inserting numbers
-                        for (int i = 0; i < choice; i++) {
-                            System.out.print("Insert number no. " + (i + 1) + ": ");
-                            container = sc.nextLine();
-                            try {
-                                checker = Integer.parseInt(container);
-                                db[i] = container;
-                            } catch (NumberFormatException e) {
-                                System.out.println("You cannot insert word!");
-                                i--;
-                            }
-                        }
-
-                        writer.write(db);
-                    }
-                    set = false;
-                    notCreated = true;
+                } else if (choice == 4) {
+                    exit = true;
+                    continue;
                 }
 
                 // All operations
@@ -145,7 +155,7 @@ public class Main {
 
                     if (notCreated) {
                         // Tells user everything went fine
-                        System.out.println("All numbers sorted\nYou can see them in file " + file.getFileName() + " or see them now by clicking 1:");
+                        System.out.println("All numbers sorted\nYou can see them in file " + file.getFileName() + " or see them now by clicking 1 ([2] to exit):");
                         choice = sc.nextInt();
 
                         // Optionally shows numbers
@@ -157,11 +167,17 @@ public class Main {
                             // Assigns array
                             db2 = rd.read(rd.howMany());
 
+                            // Types out "-" for clarity
+                            System.out.println("----------------");
+
                             // Prints out array
                             for (int x :
                                     db2) {
                                 System.out.println(x);
                             }
+
+                            // Types out "-" for clarity
+                            System.out.println("----------------");
                         }
                     }
                 } else {
@@ -171,5 +187,7 @@ public class Main {
                 System.out.println("Wrong character inserted");
             }
         }while (!exit);
+        // Says goodbye
+        System.out.println("See you!");
     }
 }
