@@ -7,16 +7,18 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         //TODO make interface
-        //TODO do something when file not created
         //TODO be able to see all files
         //TODO be able to delete files
+        //TODO when inserting 1 in "how many numbers" exception occurs
 
         // Variables
         String filename = file.getFileName();
+        String defaultPath = "src/main/resources/numbers.txt";
         String container;
         String ignore;
         boolean exit = false;
         boolean set = false;
+        boolean notCreated = true;
         int choice;
         int checker;
 
@@ -48,6 +50,11 @@ public class Main {
         if (checker == 0) {
             set = true;
             choice = 2;
+        } else if (checker == -1) {
+            writer = new Writing(defaultPath);
+            rd = new Reading(defaultPath);
+            System.out.println("Returned to default path: " + defaultPath);
+            file.setFileName(defaultPath);
         }
         do {
             try {
@@ -65,14 +72,30 @@ public class Main {
                     // Clears
                     sc.nextLine();
 
-                    // If so asks the user about the name of that file
                     System.out.print("What new file name is? ");
                     file.setFileName(sc.nextLine());
 
                     // Sets writer and reader
                     writer = new Writing(file.getFileName());
                     rd = new Reading(file.getFileName());
-                    continue;
+
+                    checker = rd.howMany();
+
+                    if (checker == -1){
+                        writer = new Writing(defaultPath);
+                        rd = new Reading(defaultPath);
+                        System.out.println("Returned to default path: " + defaultPath);
+                        notCreated = false;
+                    }else if (checker == -2){
+                        System.out.println("Current path: " + file.getFileName());
+                        set = true;
+                        choice = 2;
+                        continue;
+                    } else if (checker > 0) {
+                        System.out.println("Current path: " + file.getFileName());
+                        continue;
+                    }
+
 
                 } else if (choice == 2) {
 
@@ -80,27 +103,31 @@ public class Main {
                     System.out.println("How many numbers you want to insert?");
                     choice = sc.nextInt();
 
-                    // Clearing
-                    sc.nextLine();
+                    if (choice > 0) {
 
-                    // Creating array for all numbers
-                    String[] db = new String[choice];
+                        // Clearing
+                        sc.nextLine();
 
-                    // Inserting numbers
-                    for (int i = 0; i < choice; i++) {
-                        System.out.print("Insert number no. " + (i + 1) + ": ");
-                        container = sc.nextLine();
-                        try {
-                            checker = Integer.parseInt(container);
-                            db[i] = container;
-                        } catch (NumberFormatException e) {
-                            System.out.println("You cannot insert word!");
-                            i--;
+                        // Creating array for all numbers
+                        String[] db = new String[choice];
+
+                        // Inserting numbers
+                        for (int i = 0; i < choice; i++) {
+                            System.out.print("Insert number no. " + (i + 1) + ": ");
+                            container = sc.nextLine();
+                            try {
+                                checker = Integer.parseInt(container);
+                                db[i] = container;
+                            } catch (NumberFormatException e) {
+                                System.out.println("You cannot insert word!");
+                                i--;
+                            }
                         }
-                    }
 
-                    writer.write(db);
+                        writer.write(db);
+                    }
                     set = false;
+                    notCreated = true;
                 }
 
                 // All operations
@@ -116,24 +143,25 @@ public class Main {
                             )
                     );
 
+                    if (notCreated) {
+                        // Tells user everything went fine
+                        System.out.println("All numbers sorted\nYou can see them in file " + file.getFileName() + " or see them now by clicking 1:");
+                        choice = sc.nextInt();
 
-                    // Tells user everything went fine
-                    System.out.println("All numbers sorted\nYou can see them in file " + file.getFileName() + " or see them now by clicking 1:");
-                    choice = sc.nextInt();
+                        // Optionally shows numbers
+                        if (choice == 1) {
 
-                    // Optionally shows numbers
-                    if (choice == 1) {
+                            // Creates array
+                            int[] db2;
 
-                        // Creates array
-                        int[] db2;
+                            // Assigns array
+                            db2 = rd.read(rd.howMany());
 
-                        // Assigns array
-                        db2 = rd.read(rd.howMany());
-
-                        // Prints out array
-                        for (int x :
-                                db2) {
-                            System.out.println(x);
+                            // Prints out array
+                            for (int x :
+                                    db2) {
+                                System.out.println(x);
+                            }
                         }
                     }
                 } else {

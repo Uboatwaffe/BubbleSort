@@ -2,7 +2,6 @@ package org.sorter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Reading {
@@ -28,8 +27,9 @@ public class Reading {
             choice = sc.nextInt();
             if (choice == 1) {
                   file.createFile(FileName);
+                  counter = -2;
             }else
-                counter--;
+                counter = -1;
         }
         return counter;
     }
