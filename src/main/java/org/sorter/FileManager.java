@@ -3,9 +3,7 @@ package org.sorter;
 import org.sorter.Exceptions.CreatingFile;
 import org.sorter.Exceptions.CustomException;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileManager {

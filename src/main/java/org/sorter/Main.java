@@ -8,9 +8,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         //TODO make interface
-        //TODO be able to see all FileManagers
-        //TODO be able to delete FileManagers
-        //TODO load array from files.txt to files[]
 
         // Variables
         String fileName = FileManager.getFileName();
@@ -149,10 +146,9 @@ public class Main {
                         set = true;
                         choice = 2;
                         files[++k] = container;
-                        for (String x:
-                             files) {
-                            FileWriter.write(files);
-                        }
+
+                        FileWriter.write(files);
+
                         continue;
                     } else if (checker > 0) {
                         System.out.println("Current path: " + FileManager.getFileName());
@@ -164,7 +160,7 @@ public class Main {
                 } else if (choice == 4) {
                     for (String x:
                          files) {
-                        if (!Objects.equals(x, "null"))
+                        if (!Objects.equals(x, "null") && x != null)
                             System.out.println(x);
                     }
                     // Types out "-" for clarity
@@ -180,8 +176,9 @@ public class Main {
                     }
                     for (int i = 0; i < files.length; i++) {
                         if (Objects.equals(files[i], container)) {
-                            files[i] = null;
-                            FileManager.deleteFile(container);
+                            FileManager.deleteFile(files[i]);
+                            files[i] = "null";
+                            FileWriter.write(files);
                             System.out.println("File " + container + " deleted");
                             break;
                         }

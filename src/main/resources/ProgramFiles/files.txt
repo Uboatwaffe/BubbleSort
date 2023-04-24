@@ -1,7 +1,7 @@
 numbers.txt
 a.txt
-c.txt
-d.txt
+null
+null
 null
 null
 null
