@@ -26,7 +26,7 @@ public class Reading {
             Scanner sc = new Scanner(System.in);
             choice = sc.nextInt();
             if (choice == 1) {
-                  file.createFile(FileName);
+                  FileManager.createFile(FileName);
                   counter = -2;
             }else
                 counter = -1;

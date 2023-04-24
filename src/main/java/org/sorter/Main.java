@@ -8,11 +8,12 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         //TODO make interface
-        //TODO be able to see all files
-        //TODO be able to delete files
+        //TODO be able to see all FileManagers
+        //TODO be able to delete FileManagers
+        //TODO load array from files.txt to files[]
 
         // Variables
-        String filename = file.getFileName();
+        String fileName = FileManager.getFileName();
         String defaultPath = "src/main/resources/numbers.txt";
         String container = "";
         String ignore;
@@ -30,31 +31,32 @@ public class Main {
 
         // Objects
         Writing writer = null;
-        Writing fileWriter = new Writing("src/main/resources/files.txt");
-        Reading fileReader = new Reading("src/main/resources/files.txt");
+        Writing FileWriter = new Writing("src/main/resources/ProgramFiles/files.txt");
+        Reading FileReader = new Reading("src/main/resources/ProgramFiles/files.txt");
         Reading rd = null;
         Parsing pa = new Parsing();
         Sorter sorter = new Sorter();
         Scanner sc = new Scanner(System.in);
 
-        // Asks user does he want to use preset file
-        System.out.print("Do you want to use file: " + filename + " ? ([1] yes; [2] no) ");
+        // Asks user does he want to use preset FileManager
+        System.out.print("Do you want to use file: " + fileName + " ? ([1] yes; [2] no) ");
         choice = sc.nextInt();
 
         // Clearing
         sc.nextLine();
 
-        // If so asks the user about the name of that file
+        // If so asks the user about the name of that FileManager
         if (choice == 2){
             System.out.print("What new file name is? ");
             container = sc.nextLine();
-            file.setFileName(container);
+            FileManager.setFileName(container);
         }
 
         // Sets writer and reader
-        writer = new Writing(file.getFileName());
-        rd = new Reading(file.getFileName());
-        // Checks if file exists
+        writer = new Writing(FileManager.getFileName());
+        rd = new Reading(FileManager.getFileName());
+
+        // Checks if FileManager exists
         checker = rd.howMany();
         if (checker == 0) {
             set = true;
@@ -63,7 +65,7 @@ public class Main {
             writer = new Writing(defaultPath);
             rd = new Reading(defaultPath);
             System.out.println("Returned to default path: " + defaultPath);
-            file.setFileName(defaultPath);
+            FileManager.setFileName(defaultPath);
         } else if (checker == -2) {
             files[++k] = container;
         }
@@ -108,7 +110,7 @@ public class Main {
                             System.out.print("Insert number no. " + (i + 1) + ": ");
                             container = sc.nextLine();
                             try {
-                                checker = Integer.parseInt(container);
+                                Integer.parseInt(container);
                                 db[i] = container;
                             } catch (NumberFormatException e) {
                                 System.out.println("You cannot insert word!");
@@ -129,11 +131,11 @@ public class Main {
 
                     System.out.print("What new file name is? ");
                     container = sc.nextLine();
-                    file.setFileName(container);
+                    FileManager.setFileName(container);
 
                     // Sets writer and reader
-                    writer = new Writing(file.getFileName());
-                    rd = new Reading(file.getFileName());
+                    writer = new Writing(FileManager.getFileName());
+                    rd = new Reading(FileManager.getFileName());
 
                     checker = rd.howMany();
 
@@ -143,13 +145,17 @@ public class Main {
                         System.out.println("Returned to default path: " + defaultPath);
                         notCreated = false;
                     } else if (checker == -2) {
-                        System.out.println("Current path: " + file.getFileName());
+                        System.out.println("Current path: " + FileManager.getFileName());
                         set = true;
                         choice = 2;
                         files[++k] = container;
+                        for (String x:
+                             files) {
+                            FileWriter.write(files);
+                        }
                         continue;
                     } else if (checker > 0) {
-                        System.out.println("Current path: " + file.getFileName());
+                        System.out.println("Current path: " + FileManager.getFileName());
                         continue;
                     } else if (checker == 0) {
                         set = true;
@@ -175,7 +181,7 @@ public class Main {
                     for (int i = 0; i < files.length; i++) {
                         if (Objects.equals(files[i], container)) {
                             files[i] = null;
-                            file.deleteFile(container);
+                            FileManager.deleteFile(container);
                             System.out.println("File " + container + " deleted");
                             break;
                         }
@@ -203,7 +209,7 @@ public class Main {
 
                     if (notCreated) {
                         // Tells user everything went fine
-                        System.out.println("All numbers sorted\nYou can see them in file " + file.getFileName() + " or see them now by clicking 1 ([2] to exit):");
+                        System.out.println("All numbers sorted\nYou can see them in file " + FileManager.getFileName() + " or see them now by clicking 1 ([2] to exit):");
                         choice = sc.nextInt();
 
                         // Optionally shows numbers
