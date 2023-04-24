@@ -1,8 +1,8 @@
-package org.sorter;
+package org.sorter.Exceptions;
 
 public class CustomException extends Exception{
     private final String message;
-    CustomException(String message){
+    public CustomException(String message){
         this.message = message;
     }
 

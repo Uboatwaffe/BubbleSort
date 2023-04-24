@@ -1,7 +1,9 @@
 package org.sorter;
 
+import org.sorter.Exceptions.CreatingFile;
+import org.sorter.Exceptions.CustomException;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class file {
