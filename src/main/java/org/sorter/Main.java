@@ -24,12 +24,13 @@ public class Main {
 
 
         // Objects
-        Writing writer = null;
         Writing FileWriter = new Writing("src/main/resources/ProgramFiles/files.txt");
         Reading FileReader = new Reading("src/main/resources/ProgramFiles/files.txt");
+        Writing writer = null;
         Reading rd = null;
         Parsing pa = new Parsing();
         Sorter sorter = new Sorter();
+        CheckingExtension checkingExtension = new CheckingExtension();
         Scanner sc = new Scanner(System.in);
 
         // Arrays
@@ -79,7 +80,8 @@ public class Main {
                             change file (3),
                             show all files (4),
                             delete file (5),
-                            or close program (6)?
+                            create file(6),
+                            or close program (7)?
                             
                             """);
                     choice = sc.nextInt();
@@ -187,6 +189,19 @@ public class Main {
                     System.out.println("----------------");
                     continue;
                 } else if (choice == 6) {
+                    System.out.print("Enter a name of the file to be created: ");
+                    sc.nextLine();
+                    container = sc.nextLine();
+                    FileManager.createFile("src/main/resources/" + container);
+                    System.out.println("File: " + container + " created");
+                    FileManager.setFileName(container);
+                    System.out.println("Current path: " + FileManager.getFileName());
+                    set = true;
+                    choice = 2;
+                    files[++k] = container;
+                    FileWriter.write(files);
+                    continue;
+                } else if (choice == 7) {
                     exit = true;
                     continue;
                 }
