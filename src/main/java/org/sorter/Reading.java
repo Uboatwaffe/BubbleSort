@@ -46,4 +46,17 @@ public class Reading {
         }
         return db;
     }
+    protected String[] readString(int a){
+
+        // Reading all records from file
+        String[] db = new String[a];
+        try (Scanner sc = new Scanner(new File(FileName))) {
+            for (int i = 0; i < a; i++) {
+                db[i] = sc.nextLine();
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+        return db;
+    }
 }

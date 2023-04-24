@@ -24,10 +24,7 @@ public class Main {
         int checker;
         int k = 1;
 
-        // Arrays
-        String[] files = new String[999];
-        files[0] = "numbers.txt";
-        files[1] = "a.txt";
+
 
         // Objects
         Writing writer = null;
@@ -38,14 +35,17 @@ public class Main {
         Sorter sorter = new Sorter();
         Scanner sc = new Scanner(System.in);
 
-        // Asks user does he want to use preset FileManager
+        // Arrays
+        String[] files = FileReader.readString(999);
+
+        // Asks user does he want to use preset file
         System.out.print("Do you want to use file: " + fileName + " ? ([1] yes; [2] no) ");
         choice = sc.nextInt();
 
         // Clearing
         sc.nextLine();
 
-        // If so asks the user about the name of that FileManager
+        // If so asks the user about the name of that file
         if (choice == 2){
             System.out.print("What new file name is? ");
             container = sc.nextLine();
@@ -164,7 +164,7 @@ public class Main {
                 } else if (choice == 4) {
                     for (String x:
                          files) {
-                        if (x != null)
+                        if (!Objects.equals(x, "null"))
                             System.out.println(x);
                     }
                     // Types out "-" for clarity
