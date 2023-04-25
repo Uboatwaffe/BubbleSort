@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        //TODO make interface
+        // TODO clean the code and make comments
 
         // Variables
         String fileName = FileManager.getFileName();
