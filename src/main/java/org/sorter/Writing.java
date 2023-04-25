@@ -12,8 +12,8 @@ public class Writing{
 
         // Writing String[] in file
         try (FileWriter fw = new FileWriter(FileName)) {
-            for (int i = 0; i < a.length; i++) {
-                fw.write(a[i] + "\n");
+            for (String s : a) {
+                fw.write(s + "\n");
             }
         } catch (IOException e) {
             e.printStackTrace();

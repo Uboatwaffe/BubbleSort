@@ -15,6 +15,7 @@ public class Sorter {
                     change = true;
                 }
             }
+            // If any change wasn't made exits
             if (!change)
                 break;
         }

@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // TODO clean the code and make comments
 
         // Variables
         String fileName = FileManager.getFileName();
@@ -20,7 +19,6 @@ public class Main {
         int choice;
         int checker;
         int k = 1;
-
 
 
         // Objects
@@ -55,25 +53,34 @@ public class Main {
         writer = new Writing(FileManager.getFileName());
         rd = new Reading(FileManager.getFileName());
 
-        // Checks if FileManager exists
+        // Checks if file is not empty/doesn't exist
         checker = rd.howMany();
         if (checker == 0) {
+
+            // If it is empty redirects user to inserting numbers
             set = true;
             choice = 2;
         } else if (checker == -1) {
+
+            // If it doesn't exist returns to default path
             writer = new Writing(defaultPath);
             rd = new Reading(defaultPath);
             System.out.println("Returned to default path: " + defaultPath);
             FileManager.setFileName(defaultPath);
         } else if (checker == -2) {
+
+            // If it exists adds it to files array which stores file names
             files[++k] = container;
         }
+
+        // Main loop
         do {
             try {
-
+                // If statement which allows to jump over displays
+                // useful when wanting to redirect user without consent
                 if (!set) {
 
-                    // File or manually
+                    // Asks user what action does he want to do
                     System.out.print("""
                             
                             Do you want to insert numbers from file (1),
@@ -81,8 +88,9 @@ public class Main {
                             change file (3),
                             show all files (4),
                             delete file (5),
-                            create file(6),
-                            or close program (7)?
+                            create file (6),
+                            show current path (7),
+                            or close program (8)?
                             
                             """);
                     choice = sc.nextInt();
@@ -91,130 +99,186 @@ public class Main {
                     System.out.println("----------------");
                 }
 
-                if (choice == 2) {
+                // Switch which does other things when other input is provided
+                switch (choice) {
+                    case 2 -> {
 
-                    // Taking information about how many numbers will be inserted
-                    System.out.println("How many numbers you want to insert?");
-                    choice = sc.nextInt();
+                        // Taking information about how many numbers will be inserted
+                        System.out.println("How many numbers you want to insert?");
+                        choice = sc.nextInt();
 
-                    if (choice >= 2) {
+                        if (choice >= 2) {
 
-                        // Clearing
+                            // Clearing
+                            sc.nextLine();
+
+                            // Creating array for all numbers
+                            String[] db = new String[choice];
+
+                            // Inserting numbers
+                            for (int i = 0; i < choice; i++) {
+                                System.out.print("Insert number no. " + (i + 1) + ": ");
+                                container = sc.nextLine();
+                                try {
+                                    Integer.parseInt(container);
+                                    db[i] = container;
+                                } catch (NumberFormatException e) {
+                                    System.out.println("You cannot insert word!");
+                                    i--;
+                                }
+                            }
+
+                            // Writes db array into current file
+                            writer.write(db);
+
+                        } else {
+
+                            // If there are less than 2 numbers to sort shows that it cannot be done
+                            System.out.println("You need at least 2 numbers to be able to sort them");
+                        }
+
+                        // Allows program to work properly
+                        set = false;
+                        notCreated = true;
+
+                    }
+                    case 3 -> {
+                        // Clears
                         sc.nextLine();
 
-                        // Creating array for all numbers
-                        String[] db = new String[choice];
+                        // Asks for new file name
+                        System.out.print("What new file name is? ");
+                        container = sc.nextLine();
 
-                        // Inserting numbers
-                        for (int i = 0; i < choice; i++) {
-                            System.out.print("Insert number no. " + (i + 1) + ": ");
-                            container = sc.nextLine();
-                            try {
-                                Integer.parseInt(container);
-                                db[i] = container;
-                            } catch (NumberFormatException e) {
-                                System.out.println("You cannot insert word!");
-                                i--;
+                        // Checks file extension
+                        if (checkingExtension.check(container))
+                            FileManager.setFileName(container);
+                        else
+                            System.out.println("Wrong file extension");
+
+                        // Sets writer and reader
+                        writer = new Writing(FileManager.getFileName());
+                        rd = new Reading(FileManager.getFileName());
+
+                        checker = rd.howMany();
+
+                        // If file is not created returns to default path
+                        if (checker == -1) {
+                            writer = new Writing(defaultPath);
+                            rd = new Reading(defaultPath);
+                            System.out.println("Returned to default path: " + defaultPath);
+                            notCreated = false;
+                        } else if (checker == -2) {
+
+                            // If file is created changes to that's file path
+                            System.out.println("Current path: " + FileManager.getFileName());
+                            set = true;
+                            choice = 2;
+                            files[++k] = container;
+
+                            FileWriter.write(files);
+
+                            continue;
+                        } else if (checker > 0) {
+                            // If file exists changes to that's file path
+                            System.out.println("Current path: " + FileManager.getFileName());
+                            continue;
+                        } else if (checker == 0) {
+                            // If file is empty forces user to insert numbers into it
+                            set = true;
+                            choice = 2;
+                        }
+                    }
+                    case 4 -> {
+
+                        // Prints out all files that exists int resources directory
+                        for (String x :
+                                files) {
+                            if (!Objects.equals(x, "null") && x != null)
+                                System.out.println(x);
+                        }
+
+                        // Types out "-" for clarity
+                        System.out.println("----------------");
+                        continue;
+                    }
+                    case 5 -> {
+
+                        // Deletes file
+
+                        // Clears
+                        sc.nextLine();
+
+                        System.out.print("Insert file name to be deleted: ");
+                        container = sc.nextLine();
+
+                        // Checks file extension
+                        if (checkingExtension.check(container)) {
+
+                            // Prevents deleting whole array and all files
+                            if (container.equals("") || container.equals("numbers.txt")) {
+                                System.out.println("You cannot delete that file!");
+                                continue;
+                            }
+                        } else {
+                            System.out.println("Wrong file extension");
+                            continue;
+                        }
+
+                        // Deletes file from directory and from array
+                        for (int i = 0; i < files.length; i++) {
+                            if (Objects.equals(files[i], container)) {
+                                FileManager.deleteFile(files[i]);
+                                files[i] = "null";
+                                FileWriter.write(files);
+                                System.out.println("File " + container + " deleted");
+                                break;
                             }
                         }
 
-                        writer.write(db);
-                    }else{
-                        System.out.println("You need at least 2 numbers to be able to sort them");
-                    }
-                    set = false;
-                    notCreated = true;
-
-                }else if (choice == 3) {
-                    // Clears
-                    sc.nextLine();
-
-                    System.out.print("What new file name is? ");
-                    container = sc.nextLine();
-                    if(checkingExtension.check(container))
-                        FileManager.setFileName(container);
-                    else
-                        System.out.println("Wrong file extension");
-
-                    // Sets writer and reader
-                    writer = new Writing(FileManager.getFileName());
-                    rd = new Reading(FileManager.getFileName());
-
-                    checker = rd.howMany();
-
-                    if (checker == -1) {
-                        writer = new Writing(defaultPath);
-                        rd = new Reading(defaultPath);
-                        System.out.println("Returned to default path: " + defaultPath);
-                        notCreated = false;
-                    } else if (checker == -2) {
-                        System.out.println("Current path: " + FileManager.getFileName());
-                        set = true;
-                        choice = 2;
-                        files[++k] = container;
-
-                        FileWriter.write(files);
-
+                        // Types out "-" for clarity
+                        System.out.println("----------------");
                         continue;
-                    } else if (checker > 0) {
-                        System.out.println("Current path: " + FileManager.getFileName());
-                        continue;
-                    } else if (checker == 0) {
-                        set = true;
-                        choice = 2;
                     }
-                } else if (choice == 4) {
-                    for (String x:
-                         files) {
-                        if (!Objects.equals(x, "null") && x != null)
-                            System.out.println(x);
-                    }
-                    // Types out "-" for clarity
-                    System.out.println("----------------");
-                    continue;
-                } else if (choice == 5) {
-                    sc.nextLine();
-                    System.out.print("Insert file name to be deleted: ");
-                    container = sc.nextLine();
-                    if(checkingExtension.check(container)) {
-                        if (container.equals("") || container.equals("numbers.txt")) {
-                            System.out.println("You cannot delete that file!");
-                            continue;
-                        }
-                    }else {
-                        System.out.println("Wrong file extension");
-                    }
-                    for (int i = 0; i < files.length; i++) {
-                        if (Objects.equals(files[i], container)) {
-                            FileManager.deleteFile(files[i]);
-                            files[i] = "null";
+                    case 6 -> {
+                        // Creates file
+
+                        System.out.print("Enter a name of the file to be created: ");
+                        sc.nextLine();
+
+                        container = sc.nextLine();
+
+                        // Checks if file extension is correct
+                        if (checkingExtension.check(container)) {
+
+                            // Creates file
+                            FileManager.createFile("src/main/resources/" + container);
+                            System.out.println("File: " + container + " created");
+                            FileManager.setFileName(container);
+                            System.out.println("Current path: " + FileManager.getFileName());
+
+                            // Forces user to do not leave file empty
+                            set = true;
+                            choice = 2;
+
+                            // Saves file's name in file
+                            files[++k] = container;
                             FileWriter.write(files);
-                            System.out.println("File " + container + " deleted");
-                            break;
-                        }
+                        } else
+                            System.out.println("Wrong file extension");
+
+                        continue;
                     }
-                    // Types out "-" for clarity
-                    System.out.println("----------------");
-                    continue;
-                } else if (choice == 6) {
-                    System.out.print("Enter a name of the file to be created: ");
-                    sc.nextLine();
-                    container = sc.nextLine();
-                    if(checkingExtension.check(container)) {
-                        FileManager.createFile("src/main/resources/" + container);
-                        System.out.println("File: " + container + " created");
-                        FileManager.setFileName(container);
-                        System.out.println("Current path: " + FileManager.getFileName());
-                        set = true;
-                        choice = 2;
-                        files[++k] = container;
-                        FileWriter.write(files);
-                    }else
-                        System.out.println("Wrong file extension");
-                    continue;
-                } else if (choice == 7) {
-                    exit = true;
-                    continue;
+                    case 7 -> {
+                        // Shows current path
+                        System.out.println("Current path is: " + FileManager.getFileName());
+                        continue;
+                    }
+                    case 8 -> {
+                        // Responsible for exiting program
+                        exit = true;
+                        continue;
+                    }
                 }
 
                 // All operations
@@ -264,6 +328,7 @@ public class Main {
                 System.out.println("Wrong character inserted");
             }
         }while (!exit);
+
         // Says goodbye
         System.out.println("See you!");
     }

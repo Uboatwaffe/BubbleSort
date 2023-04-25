@@ -14,29 +14,34 @@ public class Reading {
     }
     protected int howMany(){
 
-        // Reading how many records file have
+        // Reading how many records file have and returns that value
         var counter = 0;
         int ignore;
         try (Scanner sc = new Scanner(new File(FileName))) {
             while (sc.hasNextInt()) {
-                ignore = sc.nextInt();
+                sc.nextInt();
                 counter++;
             }
+
         }catch(FileNotFoundException e) {
+            // If file is not found asks user does he want to create one
             System.out.println("File not found\nDo you want to create one? ([1] yes; [2] no) ");
             Scanner sc = new Scanner(System.in);
             choice = sc.nextInt();
+
+            // If so creates one and returns -2
             if (choice == 1) {
                   FileManager.createFile(FileName);
                   counter = -2;
             }else
+                // If not returns -1
                 counter = -1;
         }
         return counter;
     }
     protected int[] read(int a){
 
-        // Reading all records from file
+        // Reading all records from file in Integers
         int[] db = new int[a];
         try (Scanner sc = new Scanner(new File(FileName))) {
             for (int i = 0; i < a; i++) {
@@ -49,7 +54,7 @@ public class Reading {
     }
     protected String[] readString(int a){
 
-        // Reading all records from file
+        // Reading all records from file in Strings
         String[] db = new String[a];
         try (Scanner sc = new Scanner(new File(FileName))) {
             for (int i = 0; i < a; i++) {
