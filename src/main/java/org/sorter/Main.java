@@ -24,8 +24,8 @@ public class Main {
         // Objects
         Writing FileWriter = new Writing("src/main/resources/ProgramFiles/files.txt");
         Reading FileReader = new Reading("src/main/resources/ProgramFiles/files.txt");
-        Writing writer = null;
-        Reading rd = null;
+        Writing writer;
+        Reading rd;
         Parsing pa = new Parsing();
         Sorter sorter = new Sorter();
         CheckingExtension checkingExtension = new CheckingExtension();
