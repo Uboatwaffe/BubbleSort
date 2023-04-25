@@ -16,20 +16,24 @@ public class FileManager {
         return fileName;
     }
     protected static void createFile(String FileName) {
-        try {
-            File f = new File(FileName);
-            boolean check = f.createNewFile();
-            if (!check) {
-                throw new CustomException("File not created");
-            }else {
-                throw new CreatingFile();
-            }
-        }catch (IOException e){
-            System.out.println("Something went wrong...");
-        }catch (CustomException err) {
-            System.out.println(err.getMessage());
+        CheckingExtension checkingExtension = new CheckingExtension();
+        if (checkingExtension.check(fileName)) {
+            try {
+                File f = new File(FileName);
+                boolean check = f.createNewFile();
+                if (!check) {
+                    throw new CustomException("File not created");
+                } else {
+                    throw new CreatingFile();
+                }
+            } catch (IOException e) {
+                System.out.println("Something went wrong...");
+            } catch (CustomException err) {
+                System.out.println(err.getMessage());
 
-        } catch (CreatingFile error){}
+            } catch (CreatingFile error) {
+            }
+        }
     }
     protected static void deleteFile(String fileName){
         try {
@@ -41,10 +45,13 @@ public class FileManager {
         }
     }
     private static void deletingFiles(String fileName){
-        try{
-            File file = new File("src/main/resources/" + fileName);
-        }catch(SecurityException e){
-            System.out.println("Something went wrong!");
+        CheckingExtension checkingExtension = new CheckingExtension();
+        if (checkingExtension.check(fileName)) {
+            try {
+                File file = new File("src/main/resources/" + fileName);
+            } catch (SecurityException e) {
+                System.out.println("Something went wrong!");
+            }
         }
     }
 }

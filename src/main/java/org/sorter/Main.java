@@ -47,7 +47,8 @@ public class Main {
         if (choice == 2){
             System.out.print("What new file name is? ");
             container = sc.nextLine();
-            FileManager.setFileName(container);
+            if(checkingExtension.check(container))
+                FileManager.setFileName(container);
         }
 
         // Sets writer and reader
@@ -130,7 +131,10 @@ public class Main {
 
                     System.out.print("What new file name is? ");
                     container = sc.nextLine();
-                    FileManager.setFileName(container);
+                    if(checkingExtension.check(container))
+                        FileManager.setFileName(container);
+                    else
+                        System.out.println("Wrong file extension");
 
                     // Sets writer and reader
                     writer = new Writing(FileManager.getFileName());
@@ -172,9 +176,13 @@ public class Main {
                     sc.nextLine();
                     System.out.print("Insert file name to be deleted: ");
                     container = sc.nextLine();
-                    if (container.equals("") || container.equals("numbers.txt")) {
-                        System.out.println("You cannot delete that file!");
-                        continue;
+                    if(checkingExtension.check(container)) {
+                        if (container.equals("") || container.equals("numbers.txt")) {
+                            System.out.println("You cannot delete that file!");
+                            continue;
+                        }
+                    }else {
+                        System.out.println("Wrong file extension");
                     }
                     for (int i = 0; i < files.length; i++) {
                         if (Objects.equals(files[i], container)) {
@@ -192,14 +200,17 @@ public class Main {
                     System.out.print("Enter a name of the file to be created: ");
                     sc.nextLine();
                     container = sc.nextLine();
-                    FileManager.createFile("src/main/resources/" + container);
-                    System.out.println("File: " + container + " created");
-                    FileManager.setFileName(container);
-                    System.out.println("Current path: " + FileManager.getFileName());
-                    set = true;
-                    choice = 2;
-                    files[++k] = container;
-                    FileWriter.write(files);
+                    if(checkingExtension.check(container)) {
+                        FileManager.createFile("src/main/resources/" + container);
+                        System.out.println("File: " + container + " created");
+                        FileManager.setFileName(container);
+                        System.out.println("Current path: " + FileManager.getFileName());
+                        set = true;
+                        choice = 2;
+                        files[++k] = container;
+                        FileWriter.write(files);
+                    }else
+                        System.out.println("Wrong file extension");
                     continue;
                 } else if (choice == 7) {
                     exit = true;
