@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        // This is final version
+        // Do not change anything without manager approval
 
         // Variables
         String fileName = FileManager.getFileName();
